@@ -6,16 +6,15 @@ Move es un lenguaje de código abierto para escribir programas seguros que manip
 
 ---
 
-## 📦 El Proyecto
+##  Proyecto
 
-Este repositorio sirve como un kit de inicio para desarrollar proyectos backend en la blockchain de Sui utilizando el lenguaje de programación Move.  
-Incluye un contrato inteligente completo y funcional para un sistema de gestión de cursos básico, con módulos para crear una escuela, cursos y manejar pagos.
+Este repositorio es un proyecto para llevar la logica de compras para cursos en linea utilizando la blockcain de SUI, ademas de considerar poder pagar esos curos emplendo las cirptomonedas de SUI,
+esto permite tener mayor seguridad en las transacciones de compra ademas de eliminar personas e intituciones bancarias intemediarias, de modo que cualquiera puede crear una escuela y dentro de ella
+crear varios curos que al venderse directamente le transfieren los fondos a su Wallet, y le regresar un objeto nft al comprador como prueba de su compra
 
 ---
 
-## ⚙️ Comenzando con Codespaces
-
-La forma más sencilla de empezar es usando un Codespace de GitHub, que ofrece un entorno de desarrollo preconfigurado con todas las herramientas necesarias.
+## Comenzando con Codespaces
 
 ### 1. Clona el Repositorio  
 Copia este repositorio a tu cuenta de GitHub haciendo clic en el botón **Fork**. Puedes renombrar el repositorio según tu proyecto.
@@ -31,15 +30,6 @@ Presiona el botón `<> Code` y navega a la pestaña **Codespaces**.
 Haz clic en **Create codespace on master**. Esto abrirá un entorno de Visual Studio Code directamente en tu navegador, con todas las herramientas necesarias ya instaladas.
 
 ---
-
-## 🧰 Herramientas Incluidas
-
-Este proyecto viene con las siguientes herramientas esenciales para el desarrollo en Sui, preinstaladas en el Codespace:
-
-- **SuiUp**: Administrador de versiones para la CLI de Sui  
-- **Sui CLI**: Interfaz de línea de comandos para interactuar con la red Sui  
-- **Extensión de Move para VS Code**: Resaltado de sintaxis y soporte para Move  
-- **Move Formatter**: Extensión para formatear código Move  
 
 ## 🧪 Ejecutando el Proyecto
 
@@ -61,12 +51,30 @@ Test result: OK. Total tests: 3; passed: 3; failed: 0
 El código fuente se encuentra en sources/escuela.move.  
 El módulo escuela contiene las siguientes funciones clave:
 
-### Funciones Principales
+## Estructuras
+Se crearon 3 estrcuturas que son la Esucuela, el Curso y el Acceso al Curso, que son las plantillas de objeto para crear las diferentes funciones del
+proyecto
+
+### Funciones 
 - crear_escuela: Crea una nueva escuela propiedad del remitente
 - crear_curso: Agrega un curso a una escuela existente
 - actualizar_curso: Modifica los detalles de un curso
 - eliminar_curso: Elimina un curso del catálogo
+- elimin_escuela: Elimina una escuela y todos sus cursos en ella
 - comprar_curso: Permite comprar un curso, gestiona el pago y genera un NFT de acceso
+
+## Seguridad
+Emplea notificaciones de error para mostrar que esta pasando mal al ejecutar el proyecto
+   #[error]
+    const ID_YA_EXISTE: vector<u8> = b"El ID ya de la escuela ya esta registrado";
+    #[error]
+    const ID_NO_EXISTE: vector<u8> = b"Este ID de curso no existe.";
+    #[error]
+    const NO_PROPIETARIO: vector<u8> = b"No puedes modificar el contenido del curso o la escuela debido a que no eres propietario.";
+    #[error]
+    const NO_DISPONIBLE: vector<u8> = b"Este curso no esta disponible por el momento.";
+    #[error]
+    const SALDO_INSUFICIENTE: vector<u8> = b"El salod disponible en tu Wallet es insuficiente";
 
 ## 💬 Interacción con el Contrato
 
