@@ -41,16 +41,12 @@ Este proyecto viene con las siguientes herramientas esenciales para el desarroll
 - **Extensión de Move para VS Code**: Resaltado de sintaxis y soporte para Move  
 - **Move Formatter**: Extensión para formatear código Move  
 
-Estas herramientas fueron desarrolladas por **MystenLabs**.
-
----
-
 ## 🧪 Ejecutando el Proyecto
 
 Para asegurarte de que todo está configurado correctamente, puedes ejecutar las pruebas unitarias incluidas.
 
 ### Ejecuta las pruebas:
-```bash
+
 sui move test
 
 BUILDING starter
@@ -60,44 +56,27 @@ Running Move unit tests
 [ PASS    ] starter::escuela::prueba_compra_curso
 Test result: OK. Total tests: 3; passed: 3; failed: 0
 
-🧩 Estructura del Proyecto
-El código fuente se encuentra en sources/escuela.move.
+## 🧩 Estructura del Proyecto
+
+El código fuente se encuentra en sources/escuela.move.  
 El módulo escuela contiene las siguientes funciones clave:
-Funciones Principales
+
+### Funciones Principales
 - crear_escuela: Crea una nueva escuela propiedad del remitente
 - crear_curso: Agrega un curso a una escuela existente
 - actualizar_curso: Modifica los detalles de un curso
 - eliminar_curso: Elimina un curso del catálogo
 - comprar_curso: Permite comprar un curso, gestiona el pago y genera un NFT de acceso
 
-💬 Interacción con el Contrato
+## 💬 Interacción con el Contrato
+
 Para interactuar con el contrato, utiliza la CLI de Sui.
-🛠️ Crear un Curso
+
+### 🛠️ Crear un Curso
+
 sui client call \
   --package <TU_ID_DEL_PAQUETE> \
   --module escuela \
   --function crear_curso \
   --args <ID_DE_LA_ESCUELA> 7 "Blockchain Avanzado" "Instructor X" "Aprende a construir sobre Sui." 100 \
   --gas-budget 50000000
-
-
-🛒 Comprar un Curso
-sui client execute-transaction-block \
-  --assign @escuela=object(<ID_DE_LA_ESCUELA>) \
-  --assign @pago=sui::coin::create_for_testing(500) \
-  --move-call <TU_ID_DEL_PAQUETE>::escuela::comprar_curso @escuela 7 @pago \
-  --transfer-objects @pago \
-  --gas-budget 50000000
-
-
-
-🧱 Base para Proyectos Más Complejos
-Este kit es una base sólida para construir aplicaciones más avanzadas en Sui.
-Puedes extenderlo para incluir:
-- Certificados NFT
-- Reputación de instructores
-- Evaluaciones y retroalimentación
-- Integración con frontend web o móvil
-
-📄 Licencia
-Este proyecto está bajo la licencia MIT. Puedes usarlo, modificarlo y distribuirlo libremente.
