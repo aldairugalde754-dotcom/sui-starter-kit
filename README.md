@@ -83,7 +83,7 @@ Ademas se utilizaron, assert para verificar que quien modificara la escuela o el
 - assert!(escuela.propietario == tx_context::sender(ctx), NO_PROPIETARIO);
   
 Y para verificar que los objetos solicitas realmente existieran
--assert!(escuela.cursos.contains(&id_curso), ID_NO_EXISTE);
+- assert!(escuela.cursos.contains(&id_curso), ID_NO_EXISTE);
 
 ### Compra de Cursos
 Para la funcion de comprar cursos por parte del usuario de coloco una funcion que recibe parametros de la escuela y el curso ademas de las moneadas esto para poder comprar el curso, 
