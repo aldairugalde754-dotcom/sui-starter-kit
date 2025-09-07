@@ -80,6 +80,7 @@ Emplea notificaciones de error para mostrar que esta pasando mal al ejecutar el 
 
 Ademas se utilizaron, assert para verificar que quien modificara la escuela o el curso fuera el propietado
 - assert!(escuela.propietario == tx_context::sender(ctx), NO_PROPIETARIO);
+  
 Y para verificar que los objetos solicitas realmente existieran
 -assert!(escuela.cursos.contains(&id_curso), ID_NO_EXISTE);
 
@@ -115,17 +116,65 @@ legitimo e irrepetible acceso seguro.
 
 Para interactuar con el contrato, utiliza la CLI de Sui, mediante algunos comandos 
 
+ Comando para crear una Escuela
+
+```
+sui client call \
+  --package <ID_DEL_PAQUETE> \
+  --module escuela \
+  --function crear_escuela \
+  --args "NOMBRE_ESCUELA" \
+  --gas-budget 50000000
+```
+
+Comando de curso
+
+```
+sui client call \
+  --package <ID_PACKETE> \
+  --module escuela \
+  --function crear_curso \
+  --args <ID_ESCUELA> ID_CURSO "NOMBRE_CURSO" <ID_INSTRUCTOR> "DESCRIPCION" 1000000 \
+```
+
+
+Comando para actualizar un Curso
+
+```
+sui client call \
+  --package <ID_DEL_PAQUETE> \
+  --module escuela \
+  --function actualizar_curso \
+  --args <ID_DE_LA_ESCUELA> ID_CURSO "NUEVO_NOMBRE_CURSO" "NUEVO_NOMBRE_INSTRUCTOR" "NUEVA_DESCRIPCION" 2000000 \
+  --gas-budget 50000000
+```
+
+Comando para eliminar un Curso
+
+```
+sui client call \
+  --package <ID_DEL_PAQUETE> \
+  --module escuela \
+  --function eliminar_curso \
+  --args <ID_DE_LA_ESCUELA> ID_CURSO \
+  --gas-budget 50000000
+```
+
+
  Comando de compra
 
 ```
 sui client call \
-  --package 0xa51552f92adae538397cd31762da054bc718441ce1070af7799d79b5db7c07ca \
+  --package <ID_PACKETE> \
   --module escuela \
   --function comprar_curso \
-  --args 0x724ed8374b50faaefa81c9e533aec15569ca8555e0622dd90d13f3331c7a128e 4 0x228e255f0a101391c6b91bba094581e023307fd45c37b92286382e7a0a11bfa7 \
+  --args <ID_ESCUELA> 4 <ID_WALLET> \
   --gas-budget 10000
 ```
 
+--------------------------------------------------------
+<ID_DEL_PAQUETE>: El ID del paquete de tu contrato.
 
+<ID_DE_LA_ESCUELA>: El ID del objeto Escuela donde se encuentra el curso.
 
-
+<ID_DEL_CURSO>: El ID numérico del curso que el usuario desea comprar.
