@@ -36,7 +36,7 @@ Haz clic en **Create codespace on master**. Esto abrirá un entorno de Visual St
 Para asegurarte de que todo está configurado correctamente, puedes ejecutar las pruebas unitarias incluidas.
 
 ### Ejecuta las pruebas:
-
+```
 sui move test
 
 BUILDING starter
@@ -45,6 +45,7 @@ Running Move unit tests
 [ PASS    ] starter::escuela::prueba_creacion_curso
 [ PASS    ] starter::escuela::prueba_compra_curso
 Test result: OK. Total tests: 3; passed: 3; failed: 0
+```
 
 ### 🧩 Estructura del Proyecto
 
