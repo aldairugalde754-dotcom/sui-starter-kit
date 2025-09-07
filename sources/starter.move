@@ -6,7 +6,7 @@ module starter::escuela{
     use sui::coin::{Coin};
     use sui::coin;
 
-
+// Notoficaciones de error
     #[error]
     const ID_YA_EXISTE: vector<u8> = b"El ID ya de la escuela ya esta registrado";
     #[error]
@@ -18,6 +18,7 @@ module starter::escuela{
     #[error]
     const SALDO_INSUFICIENTE: vector<u8> = b"El salod disponible en tu Wallet es insuficiente";
 
+//estructuras de Escuela, Cursos y el acceso al curso
     public struct Escuela has key {
         id: UID,
         nombre: String,
@@ -40,6 +41,8 @@ module starter::escuela{
         propietario: address,
     }
 
+
+// Funciones de adminitracio de escuela y cursos
     public fun crear_escuela(nombre: String, ctx: &mut TxContext) {
         let escuela = Escuela {
             id: object::new(ctx),
@@ -51,8 +54,8 @@ module starter::escuela{
     }
 
     public fun crear_curso(escuela: &mut Escuela, id: u64, titulo: String, instructor_nombre: String, descripcion: String, costo: u64, ctx: &mut TxContext) {
-        assert!(escuela.propietario == tx_context::sender(ctx), NO_PROPIETARIO);
-        assert!(!escuela.cursos.contains(&id), ID_YA_EXISTE);
+        assert!(escuela.propietario == tx_context::sender(ctx), NO_PROPIETARIO);  // filtro para que solo el propietario pueda administrar
+        assert!(!escuela.cursos.contains(&id), ID_YA_EXISTE);               //verificacion de su existencia
 
         let curso = Curso { id, titulo, instructor_nombre, descripcion, disponible: true, costo };
         escuela.cursos.insert(id, curso);
@@ -83,6 +86,9 @@ module starter::escuela{
         id.delete();
     }
 
+
+
+// Funcion para comprar cursos por los alumnos
     public fun comprar_curso(escuela: &mut Escuela, id_curso: u64, mut pago: Coin<SUI>, ctx: &mut TxContext): (Coin<SUI>, AccesoCurso) {
         assert!(escuela.cursos.contains(&id_curso), ID_NO_EXISTE);
 
@@ -96,7 +102,7 @@ module starter::escuela{
         let cambio = sui::coin::split(&mut pago, pago_value - costo_curso, ctx);
         sui::transfer::public_transfer(pago, escuela.propietario); // Se transfiere al propietario de la escuela
 
-        let accesonft = AccesoCurso {
+        let accesonft = AccesoCurso {    // Creacion de un ibjeto nft que se devuelve al comprador
             id: object::new(ctx),
             curso_id: curso.id,
             propietario: tx_context::sender(ctx),
