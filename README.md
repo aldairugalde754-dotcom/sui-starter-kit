@@ -31,7 +31,7 @@ Haz clic en **Create codespace on master**. Esto abrirá un entorno de Visual St
 
 ---
 
-## 🧪 Ejecutando el Proyecto
+### 🧪 Ejecutando el Proyecto
 
 Para asegurarte de que todo está configurado correctamente, puedes ejecutar las pruebas unitarias incluidas.
 
@@ -46,12 +46,12 @@ Running Move unit tests
 [ PASS    ] starter::escuela::prueba_compra_curso
 Test result: OK. Total tests: 3; passed: 3; failed: 0
 
-## 🧩 Estructura del Proyecto
+### 🧩 Estructura del Proyecto
 
 El código fuente se encuentra en sources/escuela.move.  
 El módulo escuela contiene las siguientes funciones clave:
 
-## Estructuras
+### Estructuras
 Se crearon 3 estrcuturas que son la Esucuela, el Curso y el Acceso al Curso, que son las plantillas de objeto para crear las diferentes funciones del
 proyecto
 
@@ -60,31 +60,26 @@ proyecto
 - crear_curso: Agrega un curso a una escuela existente
 - actualizar_curso: Modifica los detalles de un curso
 - eliminar_curso: Elimina un curso del catálogo
-- elimin_escuela: Elimina una escuela y todos sus cursos en ella
+- eliminar_escuela: Elimina una escuela y todos sus cursos en ella
 - comprar_curso: Permite comprar un curso, gestiona el pago y genera un NFT de acceso
 
-## Seguridad
+
+### Seguridad
+
 Emplea notificaciones de error para mostrar que esta pasando mal al ejecutar el proyecto
-   #[error]
+ -  #[error]
     const ID_YA_EXISTE: vector<u8> = b"El ID ya de la escuela ya esta registrado";
-    #[error]
-    const ID_NO_EXISTE: vector<u8> = b"Este ID de curso no existe.";
-    #[error]
+ -   #[error]
+     onst ID_NO_EXISTE: vector<u8> = b"Este ID de curso no existe.";
+ -   #[error]
     const NO_PROPIETARIO: vector<u8> = b"No puedes modificar el contenido del curso o la escuela debido a que no eres propietario.";
-    #[error]
+ -   #[error]
     const NO_DISPONIBLE: vector<u8> = b"Este curso no esta disponible por el momento.";
-    #[error]
+ -   #[error]
     const SALDO_INSUFICIENTE: vector<u8> = b"El salod disponible en tu Wallet es insuficiente";
 
-## 💬 Interacción con el Contrato
+### 💬 Interacción con el Contrato
 
 Para interactuar con el contrato, utiliza la CLI de Sui.
 
 ### 🛠️ Crear un Curso
-
-sui client call \
-  --package <TU_ID_DEL_PAQUETE> \
-  --module escuela \
-  --function crear_curso \
-  --args <ID_DE_LA_ESCUELA> 7 "Blockchain Avanzado" "Instructor X" "Aprende a construir sobre Sui." 100 \
-  --gas-budget 50000000
