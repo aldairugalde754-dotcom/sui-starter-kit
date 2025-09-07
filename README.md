@@ -78,8 +78,54 @@ Emplea notificaciones de error para mostrar que esta pasando mal al ejecutar el 
  -   #[error]
     const SALDO_INSUFICIENTE: vector<u8> = b"El salod disponible en tu Wallet es insuficiente";
 
+Ademas se utilizaron, assert para verificar que quien modificara la escuela o el curso fuera el propietado
+- assert!(escuela.propietario == tx_context::sender(ctx), NO_PROPIETARIO);
+Y para verificar que los objetos solicitas realmente existieran
+-assert!(escuela.cursos.contains(&id_curso), ID_NO_EXISTE);
+
+### Compra de Cursos
+Para la funcion de comprar cursos por parte del usuario de coloco una funcion que recibe parametros de la escuela y el curso ademas de las moneadas esto para poder comprar el curso, 
+transferir las monedas al instructor o escuela y que el comprador mediante la estrucutra de "AccesoCurso" y la funcion "accesonft" pueda crearse un nft que le sera devuelto como su
+legitimo e irrepetible acceso seguro.
+
+    public fun comprar_curso(escuela: &mut Escuela, id_curso: u64, mut pago: Coin<SUI>, ctx: &mut TxContext): (Coin<SUI>, AccesoCurso) {
+        assert!(escuela.cursos.contains(&id_curso), ID_NO_EXISTE);
+
+        let curso = escuela.cursos.get(&id_curso);
+        let costo_curso = curso.costo;
+        let pago_value = coin::value(&pago);
+
+        assert!(curso.disponible, NO_DISPONIBLE);
+        assert!(pago_value >= costo_curso, SALDO_INSUFICIENTE);
+
+        let cambio = sui::coin::split(&mut pago, pago_value - costo_curso, ctx);
+        sui::transfer::public_transfer(pago, escuela.propietario); // Se transfiere al propietario de la escuela
+
+        let accesonft = AccesoCurso {    // Creacion de un ibjeto nft que se devuelve al comprador
+            id: object::new(ctx),
+            curso_id: curso.id,
+            propietario: tx_context::sender(ctx),
+        };
+
+        (cambio, accesonft)
+    }
+    
+
 ### 💬 Interacción con el Contrato
 
-Para interactuar con el contrato, utiliza la CLI de Sui.
+Para interactuar con el contrato, utiliza la CLI de Sui, mediante algunos comandos 
 
-### 🛠️ Crear un Curso
+ Comando de compra
+
+```
+sui client call \
+  --package 0xa51552f92adae538397cd31762da054bc718441ce1070af7799d79b5db7c07ca \
+  --module escuela \
+  --function comprar_curso \
+  --args 0x724ed8374b50faaefa81c9e533aec15569ca8555e0622dd90d13f3331c7a128e 4 0x228e255f0a101391c6b91bba094581e023307fd45c37b92286382e7a0a11bfa7 \
+  --gas-budget 10000
+```
+
+
+
+
